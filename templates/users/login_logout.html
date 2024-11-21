@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>{% if user.is_authenticated %}Logout{% else %}Login{% endif %}</h1>
+    
+    {% if user.is_authenticated %}
+    <p>Are you sure you want to logout?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    {% else %}
+    <div class="jumbotron">
+        <h1>Please login</h1>
+        <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter username" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter password" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <!-- <p>Fill out the form to login</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'users:register' %}">Register here</a>.</p> -->
+
+
+    {% endif %}
+</div>
+{% endblock %}

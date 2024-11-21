@@ -1,0 +1,20 @@
+# Python specific
+*.pyc
+*.pyo
+__pycache__/
+
+# Logs
+*.log
+
+# Django specific
+local_settings.py
+db.sqlite3
+**/migrations/*.py
+
+# Visual Studio Code specific
+.vscode/
+
+# Media
+media/
+
+

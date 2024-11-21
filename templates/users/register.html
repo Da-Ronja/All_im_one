@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    {% if registered %}
+    <div class="alert alert-success text-center">
+        <p>You have successfully registered! You can now <a href="{% url 'users:login' %}">log in</a>.</p>
+    </div>
+    {% else %}
+    <h1 class="text-center">Register</h1>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
+        <!-- Loop through form fields -->
+        {% for field in user_form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <small class="helptext">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+            <small class="text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- Profile form fields -->
+        {% for field in profile_form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+            <small class="text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn">Register</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
