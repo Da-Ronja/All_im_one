@@ -6,29 +6,26 @@
 {% block content %}
 
 <div>
-    <h1>Profile</h1>
-    {% if user.userprofileinfo.profile_pic %}
-    <img src="{{ user.userprofileinfo.profile_pic.url }}" alt="Profile picture" style="max-width: 200px;">
-    {% else %}
-    <p>No profile picture uploaded.</p>
-    {% endif %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                {% if user.userprofileinfo.profile_pic %}
+                <img src="{{ user.userprofileinfo.profile_pic.url }}" alt="Profile picture" style="max-width: 200px;">
+                {% else %}
+                <p>No profile picture uploaded.</p>
+                {% endif %}
 
-    <p>Profile site: {{ user.userprofileinfo.portfolio_site }}</p>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>First name: {{ user.first_name }}</p>
-    <p>Last name: {{ user.last_name }}</p>
-    <p>Joined: {{ user.date_joined }}</p>
-    <p>Is active: {{ user.is_active }}</p>
-    <p>Is staff: {{ user.is_staff }}</p>
-    <p>Is superuser: {{ user.is_superuser }}</p>
-    <p>Groups: {{ user.groups.all }}</p>
-    <p>Permissions: {{ user.user_permissions.all }}</p>
-    <p>Is authenticated: {{ user.is_authenticated }}</p>
-    <p>Is anonymous: {{ user.is_anonymous }}</p>
+                <p>Profile site: {{ user.userprofileinfo.portfolio_site }}</p>
+                <p>Username: {{ user.username }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>First name: {{ user.first_name }}</p>
+                <p>Last name: {{ user.last_name }}</p>
+                <p>Joined: {{ user.date_joined }}</p>
 
-
-    <a href="{% url 'users:edit_profile' %}" class="btn btn-primary">Edit profile</a>
+                <a href="{% url 'users:edit_profile' %}" class="btn btn-primary">Edit profile</a>
+        </div>
+    </div>
+</div>
 
 
 
