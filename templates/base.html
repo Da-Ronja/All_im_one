@@ -31,9 +31,11 @@
                             <a class="nav-link" href="{% url 'users:register' %}">Register</a>
                         </li>
                         {% endif %}
+                        {% if user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                         </li>
+                        {% endif %}
                     </ul>
                     {% if user.is_authenticated %}
                     <span class="navbar-text px-3">
