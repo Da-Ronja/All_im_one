@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from users.forms import UserForm, UserProfileInfoForm
+from django.shortcuts import redirect, render
+from users.forms import EditUserForm, UserForm, UserProfileInfoForm
 from django.urls import reverse
+from users.models import UserProfileInfo
 
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -94,7 +95,58 @@ def special(request):
 
 @login_required
 def user_profile(request):
-    # user = request.user
-    # user_profile = UserProfileInfo.objects.get(user=user)
-    # return render(request, 'users/profile.html', {'user_profile': user_profile})
     return render(request, 'users/profile.html')
+
+@login_required
+def edit_profile(request):
+    user = request.user 
+    profile = user.userprofileinfo
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=user)  
+        profile_form = UserProfileInfoForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            print(request, 'Your profile has been updated successfully!')
+            return redirect('edit_profile')
+        else:
+            print(request, 'Please correct the error below.')
+    else:
+        user_form = UserForm(instance=user)
+        profile_form = UserProfileInfoForm(instance=profile)
+
+    return render(request, 'users/edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
+
+def edit_profile(request):
+    user = request.user
+
+    if user.is_superuser:
+        # TODO Has no userprofileinfo object to edit 
+        return redirect('admin:index')
+
+    profile = user.userprofileinfo
+
+
+    if request.method == 'POST':
+        user_form = EditUserForm(request.POST, instance=user)
+        profile_form = UserProfileInfoForm(request.POST, request.FILES, instance=profile) 
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('users:profile')
+        else:
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form = EditUserForm(instance=user)
+        profile_form = UserProfileInfoForm(instance=profile)
+
+    return render(request, 'users/edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
