@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('users.urls')),
     path('admin/', admin.site.urls),
+    path('blog/', include('blog_app.urls')),
 ]
 if settings.DEBUG:  # TODO: remove this in production
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
